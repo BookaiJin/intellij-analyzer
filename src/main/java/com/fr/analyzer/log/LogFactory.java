@@ -22,9 +22,9 @@ public class LogFactory {
      */
     private static Logger systemLogger;
 
-    private static Logger fileLogger;
+    private static Logger fileLogger = Logger.getLogger("file");
 
-    private static FileAppender fileAppender;
+    private static FileAppender fileAppender = new FileAppender();
 
     static {
         systemLogger = Logger.getLogger("system");
@@ -55,7 +55,12 @@ public class LogFactory {
      * 根据文件名构建输出器
      */
     public Logger getLogger(String fileName) {
-
+        fileAppender.setName("file");
+        fileAppender.setFile(fileName);
+        fileAppender.setLayout(new PatternLayout());
+        fileAppender.activateOptions();
+        fileLogger.setAdditivity(false);
+        fileLogger.addAppender(fileAppender);
         return fileLogger;
     }
 }

@@ -1,7 +1,14 @@
 package com.fr.analyzer.writelogs;
 
 import com.fr.analyzer.log.LogFactory;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.util.Date;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -22,26 +29,41 @@ public class WriteLogs {
      * test
      */
     public static void main(String... args) {
-        getInstance().analyzeFile("/Users/bokai/Downloads/永不宕机/四川德恩精工/treasures", "/Users/bokai/Downloads/永不宕机/四川德恩精工/logs");
+        getInstance().analyzeFile("F:\\Work\\永不宕机\\treas201910", "F:\\Work\\永不宕机");
     }
 
     public void analyzeFile(String folderPath, String desPath) {
-        StringBuilder row = new StringBuilder();
         try {
             File toAnaFile = new File(folderPath);
             if (toAnaFile.isDirectory()) {
                 File[] files = toAnaFile.listFiles();
                 for (File file : files) {
-                    analyzeFile(file.getPath(), desPath + File.separator + toAnaFile.getName());
+                    if (file != null) {
+                        analyzeFile(file.getPath(), desPath + File.separator + toAnaFile.getName());
+                    }
                 }
             }
-            if(toAnaFile.getName().startsWith("FocusPoint")){
-
+            if (toAnaFile.getName().startsWith("focusPoint")) {
+                BufferedReader reader = new BufferedReader(new FileReader(toAnaFile));
+                String temp = "";
+                while ((temp = reader.readLine()) != null) {
+                    StringBuilder row = new StringBuilder();
+                    if(temp.contains("FR-F4002")) {
+                        row.append("-----");
+                    } else if(temp.contains("FR-F4003")) {
+                        row.append("=====");
+                    } else {
+                        continue;
+                    }
+                    String[] temps = temp.split(",");
+                    Date date = new Date(Long.parseLong(temps[1]));
+                    row.append(date.toString()).append(",").append(temp);
+                    logger = LogFactory.getInstance().getLogger(desPath + File.separator + "result" + File.separator + toAnaFile.getName().replace("csv", "log"));
+                    logger.error(row.toString());
+                }
             }
-            logger = LogFactory.getInstance().getLogger("filePath");
-            logger.fatal(row);
         } catch (Exception e) {
-
+            LogFactory.getSystemLogger().error(e.getMessage(), e);
         }
     }
 }

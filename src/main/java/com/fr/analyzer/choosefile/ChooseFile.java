@@ -24,7 +24,7 @@ public class ChooseFile {
      * test
      */
     public static void main(String... args) {
-        getInstance().getFilesPathToAnalyze("/Users/bokai/Downloads/永不宕机/四川德恩精工/treasures.zip");
+        getInstance().getFilesPathToAnalyze("F:\\Work\\永不宕机\\treas201910.zip");
     }
 
     public String getFilesPathToAnalyze(String filePath) {
