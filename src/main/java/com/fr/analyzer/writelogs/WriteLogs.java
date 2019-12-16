@@ -1,14 +1,10 @@
 package com.fr.analyzer.writelogs;
 
 import com.fr.analyzer.log.LogFactory;
-
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.util.Date;
-
 import org.apache.log4j.Logger;
 
 /**
@@ -39,7 +35,7 @@ public class WriteLogs {
                 File[] files = toAnaFile.listFiles();
                 for (File file : files) {
                     if (file != null) {
-                        analyzeFile(file.getPath(), desPath + File.separator + toAnaFile.getName());
+                        analyzeFile(file.getPath(), desPath);
                     }
                 }
             }
@@ -48,9 +44,9 @@ public class WriteLogs {
                 String temp = "";
                 while ((temp = reader.readLine()) != null) {
                     StringBuilder row = new StringBuilder();
-                    if(temp.contains("FR-F4002")) {
+                    if (temp.contains("FR-F4002")) {
                         row.append("-----");
-                    } else if(temp.contains("FR-F4003")) {
+                    } else if (temp.contains("FR-F4003")) {
                         row.append("=====");
                     } else {
                         continue;
