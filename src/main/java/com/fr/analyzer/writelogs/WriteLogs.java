@@ -33,6 +33,7 @@ public class WriteLogs {
             File toAnaFile = new File(folderPath);
             if (toAnaFile.isDirectory()) {
                 File[] files = toAnaFile.listFiles();
+                assert files != null;
                 for (File file : files) {
                     if (file != null) {
                         analyzeFile(file.getPath(), desPath);
@@ -41,7 +42,7 @@ public class WriteLogs {
             }
             if (toAnaFile.getName().startsWith("focusPoint")) {
                 BufferedReader reader = new BufferedReader(new FileReader(toAnaFile));
-                String temp = "";
+                String temp;
                 while ((temp = reader.readLine()) != null) {
                     StringBuilder row = new StringBuilder();
                     if (temp.contains("FR-F4002")) {
