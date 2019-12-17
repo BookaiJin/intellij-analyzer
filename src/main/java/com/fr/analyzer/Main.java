@@ -1,6 +1,7 @@
 package com.fr.analyzer;
 
 import com.fr.analyzer.choosefile.ChooseFile;
+import com.fr.analyzer.log.LogFactory;
 import com.fr.analyzer.writelogs.WriteLogs;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -72,6 +73,7 @@ public class Main extends JFrame {
     private void addOutputButtonAction(JButton outputButton) {
         outputButton.addActionListener(e -> {
             chooseFile(outputText);
+            LogFactory.refreshSystemLogger(outputText.getText());
         });
     }
 
@@ -91,9 +93,9 @@ public class Main extends JFrame {
     private void analyze(JButton analyzeButton) {
         analyzeButton.addActionListener(e -> {
             //get files
-            String pathToAnalyze = ChooseFile.getInstance().getFilesPathToAnalyze(inputText.getText());
+            ChooseFile.getInstance().getFilesPathToAnalyze(inputText.getText(), outputText.getText());
             //write logs
-            WriteLogs.getInstance().analyzeFile(pathToAnalyze, outputText.getText());
+            WriteLogs.getInstance().analyzeFile(outputText.getText(), outputText.getText());
         });
     }
 }

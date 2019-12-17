@@ -26,8 +26,7 @@ public class ChooseFile {
 //    public static void main(String... args) {
 //        getInstance().getFilesPathToAnalyze("");
 //    }
-
-    public String getFilesPathToAnalyze(String filePath) {
+    public String getFilesPathToAnalyze(String filePath, String desPath) {
         String extractFilePath = "";
         try {
             ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(filePath));
@@ -35,7 +34,8 @@ public class ChooseFile {
             byte[] buffer = new byte[1024];
             while (zipEntry != null) {
                 String zipFileName = zipEntry.getName();
-                File extractedFile = new File(filePath.substring(0, filePath.lastIndexOf(File.separator)) + File.separator + zipFileName);
+                zipFileName = zipFileName.endsWith(".csv") ? "/zip/" + zipFileName : zipFileName;
+                File extractedFile = new File(desPath + File.separator + zipFileName);
                 File resultFolder = new File(extractedFile.getParent());
                 if ("".equals(extractFilePath)) {
                     extractFilePath = resultFolder.getPath();
@@ -47,7 +47,7 @@ public class ChooseFile {
                     fos.write(buffer, 0, len);
                 }
                 if (extractedFile.getName().endsWith(".zip")) {
-                    getFilesPathToAnalyze(extractedFile.getPath());
+                    getFilesPathToAnalyze(extractedFile.getPath(), desPath);
                 }
                 fos.close();
                 try {

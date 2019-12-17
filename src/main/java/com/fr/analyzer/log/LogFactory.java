@@ -22,21 +22,27 @@ public class LogFactory {
      */
     private static Logger systemLogger;
 
+    private static DailyRollingFileAppender sysAppender = new DailyRollingFileAppender();
+
     private static Logger fileLogger = Logger.getLogger("file");
 
     private static FileAppender fileAppender = new FileAppender();
 
     static {
         systemLogger = Logger.getLogger("system");
-        DailyRollingFileAppender fileAppender = new DailyRollingFileAppender();
-        fileAppender.setName("system");
-        fileAppender.setDatePattern("'.'yyyy-MM-dd");
-        fileAppender.setFile(System.getProperty("user.dir") + "/analyzer-system.log");
-        fileAppender.setLayout(new PatternLayout("%d %t %p [%c] %m %n"));
-        fileAppender.setAppend(true);
-        fileAppender.activateOptions();
+        sysAppender.setName("system");
+        sysAppender.setDatePattern("'.'yyyy-MM-dd");
+        sysAppender.setFile(System.getProperty("user.dir") + "/analyzer-system.log");
+        sysAppender.setLayout(new PatternLayout("%d %t %p [%c] %m %n"));
+        sysAppender.setAppend(true);
+        sysAppender.activateOptions();
         systemLogger.setAdditivity(false);
-        systemLogger.addAppender(fileAppender);
+        systemLogger.addAppender(sysAppender);
+    }
+
+    public static void refreshSystemLogger(String path){
+        sysAppender.setFile(path + "/analyzer-system.log");
+        sysAppender.activateOptions();
     }
 
     public static Logger getSystemLogger() {
