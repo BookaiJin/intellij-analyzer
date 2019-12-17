@@ -24,9 +24,9 @@ public class WriteLogs {
     /**
      * test
      */
-    public static void main(String... args) {
-        getInstance().analyzeFile("F:\\Work\\永不宕机\\treas201910", "F:\\Work\\永不宕机");
-    }
+//    public static void main(String... args) {
+//        getInstance().analyzeFile("", "");
+//    }
 
     public void analyzeFile(String folderPath, String desPath) {
         try {
