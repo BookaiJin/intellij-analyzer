@@ -66,9 +66,7 @@ public class Main extends JFrame {
     }
 
     private void addInputButtonAction(JButton inputButton) {
-        inputButton.addActionListener(e -> {
-            chooseFile(inputText);
-        });
+        inputButton.addActionListener(e -> chooseFile(inputText));
     }
 
     private void addOutputButtonAction(JButton outputButton) {
