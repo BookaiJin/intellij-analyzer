@@ -27,10 +27,12 @@ public class WriteLogs {
 //    public static void main(String... args) {
 //        getInstance().analyzeFile("", "");
 //    }
-
     public void analyzeFile(String folderPath, String desPath) {
         try {
             File toAnaFile = new File(folderPath);
+            if (toAnaFile.getName().startsWith("__result")) {
+                return;
+            }
             if (toAnaFile.isDirectory()) {
                 File[] files = toAnaFile.listFiles();
                 assert files != null;
@@ -55,7 +57,7 @@ public class WriteLogs {
                     String[] temps = temp.split(",");
                     Date date = new Date(Long.parseLong(temps[1]));
                     row.append(date.toString()).append(",").append(temp);
-                    logger = LogFactory.getInstance().getLogger(desPath + File.separator + "result" + File.separator + toAnaFile.getName().replace("csv", "log"));
+                    logger = LogFactory.getInstance().getLogger(desPath + File.separator + "__result" + File.separator + toAnaFile.getName().replace("csv", "log"));
                     logger.error(row.toString());
                 }
             }

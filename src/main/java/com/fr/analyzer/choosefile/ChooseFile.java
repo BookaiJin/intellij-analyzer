@@ -34,7 +34,7 @@ public class ChooseFile {
             byte[] buffer = new byte[1024];
             while (zipEntry != null) {
                 String zipFileName = zipEntry.getName();
-                zipFileName = zipFileName.endsWith(".csv") ? "/zip/" + zipFileName : zipFileName;
+                zipFileName = zipFileName.endsWith(".csv") ? "/csv/" + zipFileName : zipFileName;
                 File extractedFile = new File(desPath + File.separator + zipFileName);
                 File resultFolder = new File(extractedFile.getParent());
                 if ("".equals(extractFilePath)) {
