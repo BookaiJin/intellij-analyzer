@@ -26,7 +26,7 @@ public class ChooseFile {
 //    public static void main(String... args) {
 //        getInstance().getFilesPathToAnalyze("");
 //    }
-    public String getFilesPathToAnalyze(String filePath, String desPath) {
+    public void getFilesPathToAnalyze(String filePath, String desPath) {
         String extractFilePath = "";
         try {
             ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(filePath));
@@ -62,6 +62,5 @@ public class ChooseFile {
             LogFactory.getSystemLogger().error(e.getMessage(), e);
             LogFactory.getSystemLogger().error("Unzip failed");
         }
-        return extractFilePath;
     }
 }
