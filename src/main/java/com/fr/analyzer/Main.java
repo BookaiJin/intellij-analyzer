@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -96,6 +97,7 @@ public class Main extends JFrame {
             ChooseFile.getInstance().getFilesPathToAnalyze(inputText.getText(), outputText.getText());
             //write logs
             WriteLogs.getInstance().analyzeFile(outputText.getText(), outputText.getText());
+            JOptionPane.showMessageDialog(getParent(), "Mission complete");
         });
     }
 }
