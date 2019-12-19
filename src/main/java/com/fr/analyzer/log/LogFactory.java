@@ -41,7 +41,7 @@ public class LogFactory {
     }
 
     public static void refreshSystemLogger(String path){
-        sysAppender.setFile(path + "/analyzer-system.log");
+        sysAppender.setFile(path + "/syslog/analyzer-system.log");
         sysAppender.activateOptions();
     }
 
