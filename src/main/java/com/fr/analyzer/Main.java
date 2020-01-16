@@ -1,6 +1,7 @@
 package com.fr.analyzer;
 
 import com.fr.analyzer.choosefile.ChooseFile;
+import com.fr.analyzer.gc.log.GeneralGcLogs;
 import com.fr.analyzer.log.LogFactory;
 import com.fr.analyzer.writelogs.WriteLogs;
 import java.awt.BorderLayout;
@@ -29,12 +30,14 @@ public class Main extends JFrame {
         JPanel treasInputPanel = new JPanel(new GridLayout(1, 3));
         JPanel treasOutputPanel = new JPanel(new GridLayout(1, 3));
         JPanel treasAnalyzePanel = new JPanel(new GridLayout(1, 1));
+        JPanel generalGcLogPanel = new JPanel(new GridLayout(1,1));
 
         JLabel treasInputLabel = new JLabel("Dir included treasure: ", JLabel.CENTER);
         JLabel treasOutputLabel = new JLabel("log path to output: ", JLabel.CENTER);
         JButton inputFileChooseButton = new JButton("choose treas");
         JButton outputFileChooseButton = new JButton("choose output log dir");
         JButton analyzeButton = new JButton("Analyze");
+        JButton generalGcLogButton = new JButton("To gc log");
 
         treasInputPanel.add(treasInputLabel);
         treasInputPanel.add(inputFileChooseButton);
@@ -43,15 +46,18 @@ public class Main extends JFrame {
         treasOutputPanel.add(outputFileChooseButton);
         treasOutputPanel.add(outputText);
         treasAnalyzePanel.add(analyzeButton);
+        generalGcLogPanel.add(generalGcLogButton);
 
-        JPanel mainPanel = new JPanel(new GridLayout(3, 1));
+        JPanel mainPanel = new JPanel(new GridLayout(4, 1));
         mainPanel.add(treasInputPanel);
         mainPanel.add(treasOutputPanel);
         mainPanel.add(treasAnalyzePanel);
+        mainPanel.add(generalGcLogPanel);
 
         addInputButtonAction(inputFileChooseButton);
         addOutputButtonAction(outputFileChooseButton);
         analyze(analyzeButton);
+        generalGcLog(generalGcLogButton);
 
         this.getContentPane().add(mainPanel, BorderLayout.CENTER);
         this.setSize(2000, 400);
@@ -95,7 +101,18 @@ public class Main extends JFrame {
             ChooseFile.getInstance().getFilesPathToAnalyze(inputText.getText(), outputText.getText());
             //write logs
             WriteLogs.getInstance().analyzeFile(outputText.getText(), outputText.getText());
-            JOptionPane.showMessageDialog(getParent(), "Mission complete");
+            JOptionPane.showMessageDialog(getParent(), "Analyze mission complete");
+        });
+    }
+
+    private void generalGcLog(JButton generalGcLogButton){
+        generalGcLogButton.addActionListener(e -> {
+            //get files
+            ChooseFile.getInstance().getFilesPathToAnalyze(inputText.getText(), outputText.getText());
+            //general gc logs
+//            WriteLogs.getInstance().analyzeFile(outputText.getText(), outputText.getText());
+            GeneralGcLogs.getInstance().generalGcLogs(outputText.getText(), outputText.getText());
+            JOptionPane.showMessageDialog(getParent(), "General gc log mission complete");
         });
     }
 }
