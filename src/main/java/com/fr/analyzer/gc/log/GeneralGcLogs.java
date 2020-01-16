@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
  */
 public class GeneralGcLogs {
 
+    private static final String typeFolder = "gcLogs";
     private static GeneralGcLogs generalGcLogs = new GeneralGcLogs();
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
     private Logger logger = null;
@@ -82,7 +83,7 @@ public class GeneralGcLogs {
                     } catch (Exception e) {
                         LogFactory.getSystemLogger().error("this line general failed" + e.getMessage(), e);
                     }
-                    logger = LogFactory.getInstance().getLogger(desPath + File.separator + "__result" + File.separator + toAnaFile.getName().replace("csv", "log"));
+                    logger = LogFactory.getInstance().getLogger(desPath + File.separator + "__result" + File.separator + typeFolder + File.separator + toAnaFile.getName().replace("csv", "log"));
                     logger.error(row.toString());
                 }
             }
