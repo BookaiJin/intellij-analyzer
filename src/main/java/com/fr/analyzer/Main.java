@@ -48,11 +48,12 @@ public class Main extends JFrame {
         treasAnalyzePanel.add(analyzeButton);
         generalGcLogPanel.add(generalGcLogButton);
 
-        JPanel mainPanel = new JPanel(new GridLayout(4, 1));
+        //一个按钮，合并两个功能
+        JPanel mainPanel = new JPanel(new GridLayout(3, 1));
         mainPanel.add(treasInputPanel);
         mainPanel.add(treasOutputPanel);
         mainPanel.add(treasAnalyzePanel);
-        mainPanel.add(generalGcLogPanel);
+//        mainPanel.add(generalGcLogPanel);
 
         addInputButtonAction(inputFileChooseButton);
         addOutputButtonAction(outputFileChooseButton);
@@ -104,8 +105,10 @@ public class Main extends JFrame {
             //write logs
             WriteLogs.getInstance().analyzeFile(outputText.getText(), outputText.getText());
             long analyzeTime = System.currentTimeMillis();
+            GeneralGcLogs.getInstance().generalGcLogs(outputText.getText(), outputText.getText());
+            long generalTime = System.currentTimeMillis();
             JOptionPane.showMessageDialog(getParent(),
-                    "Analyze mission complete.\n unzip time: " + (unzipTime - startTime) / 1000F + "s\n analyze time: " + (analyzeTime - unzipTime) / 1000F + "s\n mission time: " + (analyzeTime - startTime) / 1000F + "s");
+                    "mission complete.\n unzip time: " + (unzipTime - startTime) / 1000F + "s\n analyze time: " + (analyzeTime - unzipTime) / 1000F + "s\n general gc logs time: " + (generalTime - analyzeTime) / 1000F + "s\n mission time: " + (analyzeTime - startTime) / 1000F + "s");
         });
     }
 
