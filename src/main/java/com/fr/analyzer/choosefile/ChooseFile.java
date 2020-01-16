@@ -41,7 +41,14 @@ public class ChooseFile {
                     extractFilePath = resultFolder.getPath();
                 }
                 final boolean b = resultFolder.mkdirs();
-                FileOutputStream fos = new FileOutputStream(extractedFile);
+                FileOutputStream fos;
+                try {
+                    fos = new FileOutputStream(extractedFile);
+                }catch (Exception e){
+                    LogFactory.getSystemLogger().error(e.getMessage(), e);
+                    zipEntry = zipInputStream.getNextEntry();
+                    continue;
+                }
                 int len;
                 while ((len = zipInputStream.read(buffer)) > 0) {
                     fos.write(buffer, 0, len);
