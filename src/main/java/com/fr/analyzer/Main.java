@@ -30,7 +30,7 @@ public class Main extends JFrame {
         JPanel treasInputPanel = new JPanel(new GridLayout(1, 3));
         JPanel treasOutputPanel = new JPanel(new GridLayout(1, 3));
         JPanel treasAnalyzePanel = new JPanel(new GridLayout(1, 1));
-        JPanel generalGcLogPanel = new JPanel(new GridLayout(1,1));
+        JPanel generalGcLogPanel = new JPanel(new GridLayout(1, 1));
 
         JLabel treasInputLabel = new JLabel("Dir included treasure: ", JLabel.CENTER);
         JLabel treasOutputLabel = new JLabel("log path to output: ", JLabel.CENTER);
@@ -98,21 +98,29 @@ public class Main extends JFrame {
     private void analyze(JButton analyzeButton) {
         analyzeButton.addActionListener(e -> {
             //get files
+            long startTime = System.currentTimeMillis();
             ChooseFile.getInstance().getFilesPathToAnalyze(inputText.getText(), outputText.getText());
+            long unzipTime = System.currentTimeMillis();
             //write logs
             WriteLogs.getInstance().analyzeFile(outputText.getText(), outputText.getText());
-            JOptionPane.showMessageDialog(getParent(), "Analyze mission complete");
+            long analyzeTime = System.currentTimeMillis();
+            JOptionPane.showMessageDialog(getParent(),
+                    "Analyze mission complete.\n unzip time: " + (unzipTime - startTime) / 1000F + "s\n analyze time: " + (analyzeTime - unzipTime) / 1000F + "s\n mission time: " + (analyzeTime - startTime) / 1000F + "s");
         });
     }
 
-    private void generalGcLog(JButton generalGcLogButton){
+    private void generalGcLog(JButton generalGcLogButton) {
         generalGcLogButton.addActionListener(e -> {
             //get files
+            long startTime = System.currentTimeMillis();
             ChooseFile.getInstance().getFilesPathToAnalyze(inputText.getText(), outputText.getText());
             //general gc logs
 //            WriteLogs.getInstance().analyzeFile(outputText.getText(), outputText.getText());
+            long unzipTime = System.currentTimeMillis();
             GeneralGcLogs.getInstance().generalGcLogs(outputText.getText(), outputText.getText());
-            JOptionPane.showMessageDialog(getParent(), "General gc log mission complete");
+            long generalTime = System.currentTimeMillis();
+            JOptionPane.showMessageDialog(getParent(),
+                    "general gc log mission complete.\n unzip time: " + (unzipTime - startTime) / 1000F + "s\n general time: " + (generalTime - unzipTime) / 1000F + "s\n mission time: " + (generalTime - startTime) / 1000F + "s");
         });
     }
 }
