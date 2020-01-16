@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
  */
 public class WriteLogs {
 
+    private static final String typeFolder = "focusPoint";
     private static WriteLogs writeLogs = new WriteLogs();
     private Logger logger;
 
@@ -57,7 +58,7 @@ public class WriteLogs {
                     String[] temps = temp.split(",");
                     Date date = new Date(Long.parseLong(temps[1]));
                     row.append(date.toString()).append(",").append(temp);
-                    logger = LogFactory.getInstance().getLogger(desPath + File.separator + "__result" + File.separator + toAnaFile.getName().replace("csv", "log"));
+                    logger = LogFactory.getInstance().getLogger(desPath + File.separator + "__result" + File.separator + typeFolder + File.separator + toAnaFile.getName().replace("csv", "log"));
                     logger.error(row.toString());
                 }
             }
