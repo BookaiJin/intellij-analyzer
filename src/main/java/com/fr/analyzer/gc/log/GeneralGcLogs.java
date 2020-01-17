@@ -1,12 +1,12 @@
 package com.fr.analyzer.gc.log;
 
 import com.fr.analyzer.log.LogFactory;
+import com.fr.analyzer.log.LoggerWrapper;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import org.apache.log4j.Logger;
 
 /**
  * @author bokai
@@ -18,7 +18,7 @@ public class GeneralGcLogs {
     private static final String typeFolder = "gcLogs";
     private static GeneralGcLogs generalGcLogs = new GeneralGcLogs();
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-    private Logger logger = null;
+    private LoggerWrapper loggerWrapper = null;
 
     private GeneralGcLogs() {
     }
@@ -62,6 +62,9 @@ public class GeneralGcLogs {
                         //表头无法解析，不管
                         continue;
                     }
+                    if (LoggerWrapper.getLogger(temps[4]) == null) {
+                        LoggerWrapper.setLogger(temps[4], LogFactory.getInstance().getLogger(desPath + File.separator + "__result" + File.separator + typeFolder + File.separator + toAnaFile.getName().replace("csv", temps[4] + "log")));
+                    }
                     try {
                         if ("GC".equalsIgnoreCase(temps[2])) {
                             row.append("[").append(temps[2]).append(" (").append(temps[5]).append(") [PSYoungGen: ")
@@ -84,8 +87,7 @@ public class GeneralGcLogs {
                     } catch (Exception e) {
                         LogFactory.getSystemLogger().error("this line general failed" + e.getMessage(), e);
                     }
-                    logger = LogFactory.getInstance().getLogger(desPath + File.separator + "__result" + File.separator + typeFolder + File.separator + toAnaFile.getName().replace("csv", "log"));
-                    logger.error(row.toString());
+                    LoggerWrapper.getLogger(temps[4]).error(row.toString());
                 }
             }
         } catch (Exception e) {
