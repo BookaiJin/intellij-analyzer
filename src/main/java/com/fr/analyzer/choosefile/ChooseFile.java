@@ -28,8 +28,7 @@ public class ChooseFile {
 //    }
     public void getFilesPathToAnalyze(String filePath, String desPath) {
         String extractFilePath = "";
-        try {
-            ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(filePath));
+        try (ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(filePath))) {
             ZipEntry zipEntry = zipInputStream.getNextEntry();
             byte[] buffer = new byte[1024];
             while (zipEntry != null) {
@@ -47,13 +46,13 @@ public class ChooseFile {
                         while ((len = zipInputStream.read(buffer)) > 0) {
                             fos.write(buffer, 0, len);
                         }
-                        if (extractedFile.getName().endsWith(".zip")) {
-                            getFilesPathToAnalyze(extractedFile.getPath(), desPath);
-                        }
                     } catch (Exception e) {
                         LogFactory.getSystemLogger().error(e.getMessage(), e);
                         zipEntry = zipInputStream.getNextEntry();
                         continue;
+                    }
+                    if (extractedFile.getName().endsWith(".zip")) {
+                        getFilesPathToAnalyze(extractedFile.getPath(), desPath);
                     }
                 }
                 try {
@@ -62,8 +61,6 @@ public class ChooseFile {
                     LogFactory.getSystemLogger().error(e.getMessage(), e);
                 }
             }
-            zipInputStream.closeEntry();
-            zipInputStream.close();
         } catch (Exception e) {
             LogFactory.getSystemLogger().error(e.getMessage(), e);
             LogFactory.getSystemLogger().error("Unzip failed");
