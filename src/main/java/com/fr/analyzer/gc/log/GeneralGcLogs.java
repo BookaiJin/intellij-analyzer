@@ -62,9 +62,10 @@ public class GeneralGcLogs {
                         //表头无法解析，不管
                         continue;
                     }
-                    if (LoggerWrapper.getLogger(temps[4] + toAnaFile.getName()) == null) {
+                    String loggerKey = temps[4] + toAnaFile.getName();
+                    if (LoggerWrapper.getLogger(loggerKey) == null) {
                         LoggerWrapper.setLogger(
-                                temps[4] + toAnaFile.getName(),
+                                loggerKey,
                                 LogFactory.getInstance().getLogger(
                                         desPath + File.separator + "__result" + File.separator + typeFolder + File.separator + temps[4] + File.separator + toAnaFile.getName().replace("csv", "log")
                                 )
@@ -92,7 +93,7 @@ public class GeneralGcLogs {
                     } catch (Exception e) {
                         LogFactory.getSystemLogger().error("this line general failed" + e.getMessage(), e);
                     }
-                    LoggerWrapper.getLogger(temps[4]).error(row.toString());
+                    LoggerWrapper.getLogger(loggerKey).error(row.toString());
                 }
             }
         } catch (Exception e) {
