@@ -34,29 +34,31 @@ public class ChooseFile {
             byte[] buffer = new byte[1024];
             while (zipEntry != null) {
                 String zipFileName = zipEntry.getName();
-                zipFileName = zipFileName.endsWith(".zip") ? "/zip/" + zipFileName : "/csv/" + zipFileName;
-                File extractedFile = new File(desPath + File.separator + zipFileName);
-                File resultFolder = new File(extractedFile.getParent());
-                if ("".equals(extractFilePath)) {
-                    extractFilePath = resultFolder.getPath();
+                if (isToUnzip(zipFileName)) {
+                    zipFileName = zipFileName.endsWith(".zip") ? "/zip/" + zipFileName : "/csv/" + zipFileName;
+                    File extractedFile = new File(desPath + File.separator + zipFileName);
+                    File resultFolder = new File(extractedFile.getParent());
+                    if ("".equals(extractFilePath)) {
+                        extractFilePath = resultFolder.getPath();
+                    }
+                    final boolean b = resultFolder.mkdirs();
+                    FileOutputStream fos;
+                    try {
+                        fos = new FileOutputStream(extractedFile);
+                    } catch (Exception e) {
+                        LogFactory.getSystemLogger().error(e.getMessage(), e);
+                        zipEntry = zipInputStream.getNextEntry();
+                        continue;
+                    }
+                    int len;
+                    while ((len = zipInputStream.read(buffer)) > 0) {
+                        fos.write(buffer, 0, len);
+                    }
+                    if (extractedFile.getName().endsWith(".zip")) {
+                        getFilesPathToAnalyze(extractedFile.getPath(), desPath);
+                    }
+                    fos.close();
                 }
-                final boolean b = resultFolder.mkdirs();
-                FileOutputStream fos;
-                try {
-                    fos = new FileOutputStream(extractedFile);
-                }catch (Exception e){
-                    LogFactory.getSystemLogger().error(e.getMessage(), e);
-                    zipEntry = zipInputStream.getNextEntry();
-                    continue;
-                }
-                int len;
-                while ((len = zipInputStream.read(buffer)) > 0) {
-                    fos.write(buffer, 0, len);
-                }
-                if (extractedFile.getName().endsWith(".zip")) {
-                    getFilesPathToAnalyze(extractedFile.getPath(), desPath);
-                }
-                fos.close();
                 try {
                     zipEntry = zipInputStream.getNextEntry();
                 } catch (Exception e) {
@@ -69,5 +71,9 @@ public class ChooseFile {
             LogFactory.getSystemLogger().error(e.getMessage(), e);
             LogFactory.getSystemLogger().error("Unzip failed");
         }
+    }
+
+    private boolean isToUnzip(String fileName) {
+        return fileName.endsWith("zip") || (fileName.endsWith(".csv") && (fileName.startsWith("gcRecord") || fileName.startsWith("focusPoint")));
     }
 }

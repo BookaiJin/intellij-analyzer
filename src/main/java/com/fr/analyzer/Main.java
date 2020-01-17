@@ -6,6 +6,7 @@ import com.fr.analyzer.log.LogFactory;
 import com.fr.analyzer.writelogs.WriteLogs;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.io.File;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -79,7 +80,6 @@ public class Main extends JFrame {
     private void addOutputButtonAction(JButton outputButton) {
         outputButton.addActionListener(e -> {
             chooseFile(outputText);
-            LogFactory.refreshSystemLogger(outputText.getText());
         });
     }
 
@@ -100,12 +100,23 @@ public class Main extends JFrame {
         analyzeButton.addActionListener(e -> {
             //get files
             long startTime = System.currentTimeMillis();
-            ChooseFile.getInstance().getFilesPathToAnalyze(inputText.getText(), outputText.getText());
+            int lastSep = inputText.getText().lastIndexOf(File.separatorChar);
+            int lastPoint = inputText.getText().lastIndexOf(".");
+            String fileName = "";
+            if (lastSep != -1 && lastPoint != -1) {
+                fileName = inputText.getText().substring(lastSep + 1, lastPoint);
+            }
+            String desFolder = outputText.getText();
+            if (!"".equalsIgnoreCase(fileName)) {
+                desFolder = desFolder + File.separator + fileName;
+            }
+            LogFactory.refreshSystemLogger(desFolder);
+            ChooseFile.getInstance().getFilesPathToAnalyze(inputText.getText(), desFolder);
             long unzipTime = System.currentTimeMillis();
             //write logs
-            WriteLogs.getInstance().analyzeFile(outputText.getText(), outputText.getText());
+            WriteLogs.getInstance().analyzeFile(desFolder, desFolder);
             long analyzeTime = System.currentTimeMillis();
-            GeneralGcLogs.getInstance().generalGcLogs(outputText.getText(), outputText.getText());
+            GeneralGcLogs.getInstance().generalGcLogs(desFolder, desFolder);
             long generalTime = System.currentTimeMillis();
             JOptionPane.showMessageDialog(getParent(),
                     "mission complete.\n unzip time: " + (unzipTime - startTime) / 1000F + "s\n analyze time: " + (analyzeTime - unzipTime) / 1000F + "s\n general gc logs time: " + (generalTime - analyzeTime) / 1000F + "s\n mission time: " + (analyzeTime - startTime) / 1000F + "s");
