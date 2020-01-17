@@ -63,8 +63,12 @@ public class GeneralGcLogs {
                         continue;
                     }
                     if (LoggerWrapper.getLogger(temps[4] + toAnaFile.getName()) == null) {
-                        LoggerWrapper.setLogger(temps[4] + toAnaFile.getName(), LogFactory.getInstance().getLogger(desPath + File.separator + "__result" + File.separator + typeFolder + File.separator + toAnaFile.getName().replace("csv",
-                                temps[4] + "." + "log")));
+                        LoggerWrapper.setLogger(
+                                temps[4] + toAnaFile.getName(),
+                                LogFactory.getInstance().getLogger(
+                                        desPath + File.separator + "__result" + File.separator + typeFolder + File.separator + temps[4] + File.separator + toAnaFile.getName().replace("csv", temps[4] + "." + "log")
+                                )
+                        );
                     }
                     try {
                         if ("GC".equalsIgnoreCase(temps[2])) {
