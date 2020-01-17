@@ -33,7 +33,7 @@ public class Main extends JFrame {
         JPanel treasAnalyzePanel = new JPanel(new GridLayout(1, 1));
         JPanel generalGcLogPanel = new JPanel(new GridLayout(1, 1));
 
-        JLabel treasInputLabel = new JLabel("Dir included treasure: ", JLabel.CENTER);
+        JLabel treasInputLabel = new JLabel("treasure to analyze: ", JLabel.CENTER);
         JLabel treasOutputLabel = new JLabel("log path to output: ", JLabel.CENTER);
         JButton inputFileChooseButton = new JButton("choose treas");
         JButton outputFileChooseButton = new JButton("choose output log dir");
