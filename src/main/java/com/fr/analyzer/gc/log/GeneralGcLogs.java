@@ -66,7 +66,7 @@ public class GeneralGcLogs {
                         LoggerWrapper.setLogger(
                                 temps[4] + toAnaFile.getName(),
                                 LogFactory.getInstance().getLogger(
-                                        desPath + File.separator + "__result" + File.separator + typeFolder + File.separator + temps[4] + File.separator + toAnaFile.getName().replace("csv", temps[4] + "." + "log")
+                                        desPath + File.separator + "__result" + File.separator + typeFolder + File.separator + temps[4] + File.separator + toAnaFile.getName().replace("csv", "log")
                                 )
                         );
                     }
