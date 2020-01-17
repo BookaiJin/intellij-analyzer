@@ -60,7 +60,6 @@ public class ChooseFile {
                 } catch (Exception e) {
                     LogFactory.getSystemLogger().error(e.getMessage(), e);
                     LogFactory.getSystemLogger().error("!!!!!!!!!!Error file: " + zipEntry.getName() + ", delete this and retry");
-                    System.exit(1);
                 }
             }
         } catch (Exception e) {
