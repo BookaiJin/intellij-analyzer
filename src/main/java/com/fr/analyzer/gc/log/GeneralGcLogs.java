@@ -65,21 +65,22 @@ public class GeneralGcLogs {
                     try {
                         if ("GC".equalsIgnoreCase(temps[2])) {
                             row.append("[").append(temps[2]).append(" (").append(temps[5]).append(") [PSYoungGen: ")
-                                    .append(Integer.valueOf(temps[7])).append("K->").append(Integer.valueOf(temps[8])).append("K(").append(Integer.valueOf(temps[10])).append("K)] ")
-                                    .append(Integer.valueOf(temps[19])).append("K->").append(Integer.valueOf(temps[20])).append("K(").append(Integer.valueOf(temps[22])).append("K), ")
+                                    .append((temps[7])).append("K->").append((temps[8])).append("K(").append((temps[10])).append("K)] ")
+                                    .append((temps[19])).append("K->").append((temps[20])).append("K(").append((temps[22])).append("K), ")
                                     .append(Integer.valueOf(temps[6]) / 1000F).append(" secs] [Times: real=").append(Integer.valueOf(temps[6]) / 1000F).append(" secs] [pid: ").append(temps[3])
                                     .append("] [node: ").append(temps[4]).append("]");
                         } else if ("Full GC".equalsIgnoreCase(temps[2])) {
                             row.append("[").append(temps[2]).append(" (").append(temps[5]).append(") [PSYoungGen: ")
-                                    .append(Integer.valueOf(temps[7])).append("K->").append(Integer.valueOf(temps[8])).append("K(").append(Integer.valueOf(temps[9])).append("K)] ")
+                                    .append((temps[7])).append("K->").append((temps[8])).append("K(").append((temps[9])).append("K)] ")
                                     .append("[ParOldGen: ")
-                                    .append(Integer.valueOf(temps[11])).append("K->").append(Integer.valueOf(temps[12])).append("K(").append(Integer.valueOf(temps[14])).append("K)] ")
-                                    .append(Integer.valueOf(temps[19])).append("K->").append(Integer.valueOf(temps[20])).append("K(").append(Integer.valueOf(temps[22])).append("K), ")
+                                    .append((temps[11])).append("K->").append((temps[12])).append("K(").append((temps[14])).append("K)] ")
+                                    .append((temps[19])).append("K->").append((temps[20])).append("K(").append((temps[22])).append("K), ")
                                     .append("[Metaspace: ")
-                                    .append(Integer.valueOf(temps[15])).append("K->").append(Integer.valueOf(temps[16])).append("K(").append(Integer.valueOf(temps[18])).append("K)], ")
+                                    .append((temps[15])).append("K->").append((temps[16])).append("K(").append((temps[18])).append("K)], ")
                                     .append(Integer.valueOf(temps[6]) / 1000F).append(" secs] [Times: real=").append(Integer.valueOf(temps[6]) / 1000F).append(" secs] [pid: ").append(temps[3])
                                     .append("] [node: ").append(temps[4]).append("]");
                         }
+                        row.append(" [balancePromoterScore: ").append(temps[23]).append(", releasePromoterScore: ").append(temps[24]).append(", loadScore: ").append(temps[25]).append("]");
                     } catch (Exception e) {
                         LogFactory.getSystemLogger().error("this line general failed" + e.getMessage(), e);
                     }
