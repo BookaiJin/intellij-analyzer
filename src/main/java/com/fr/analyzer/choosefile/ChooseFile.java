@@ -45,19 +45,19 @@ public class ChooseFile {
                     FileOutputStream fos;
                     try {
                         fos = new FileOutputStream(extractedFile);
+                        int len;
+                        while ((len = zipInputStream.read(buffer)) > 0) {
+                            fos.write(buffer, 0, len);
+                        }
+                        if (extractedFile.getName().endsWith(".zip")) {
+                            getFilesPathToAnalyze(extractedFile.getPath(), desPath);
+                        }
+                        fos.close();
                     } catch (Exception e) {
                         LogFactory.getSystemLogger().error(e.getMessage(), e);
                         zipEntry = zipInputStream.getNextEntry();
                         continue;
                     }
-                    int len;
-                    while ((len = zipInputStream.read(buffer)) > 0) {
-                        fos.write(buffer, 0, len);
-                    }
-                    if (extractedFile.getName().endsWith(".zip")) {
-                        getFilesPathToAnalyze(extractedFile.getPath(), desPath);
-                    }
-                    fos.close();
                 }
                 try {
                     zipEntry = zipInputStream.getNextEntry();
