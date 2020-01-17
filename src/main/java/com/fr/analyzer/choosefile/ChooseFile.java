@@ -42,9 +42,7 @@ public class ChooseFile {
                         extractFilePath = resultFolder.getPath();
                     }
                     final boolean b = resultFolder.mkdirs();
-                    FileOutputStream fos;
-                    try {
-                        fos = new FileOutputStream(extractedFile);
+                    try (FileOutputStream fos = new FileOutputStream(extractedFile)) {
                         int len;
                         while ((len = zipInputStream.read(buffer)) > 0) {
                             fos.write(buffer, 0, len);
@@ -52,7 +50,6 @@ public class ChooseFile {
                         if (extractedFile.getName().endsWith(".zip")) {
                             getFilesPathToAnalyze(extractedFile.getPath(), desPath);
                         }
-                        fos.close();
                     } catch (Exception e) {
                         LogFactory.getSystemLogger().error(e.getMessage(), e);
                         zipEntry = zipInputStream.getNextEntry();
@@ -77,3 +74,4 @@ public class ChooseFile {
         return fileName.endsWith("zip") || (fileName.endsWith(".csv") && (fileName.startsWith("gcRecord") || fileName.startsWith("focusPoint")));
     }
 }
+
