@@ -19,7 +19,6 @@ public class GeneralGcLogs {
     private static final String typeFolder = "gcLogs";
     private static GeneralGcLogs generalGcLogs = new GeneralGcLogs();
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-    private LoggerWrapper loggerWrapper = null;
 
     private GeneralGcLogs() {
     }
@@ -64,12 +63,20 @@ public class GeneralGcLogs {
                         continue;
                     }
                     String loggerKey = temps[4] + toAnaFile.getName();
+                    String loggerKeyByMon = temps[4];
                     if (LoggerWrapper.getLogger(loggerKey) == null) {
                         LoggerWrapper.setLogger(
                                 loggerKey,
                                 LogFactory.getInstance().getLogger(
                                         desPath + File.separator + "__result" + File.separator + typeFolder + File.separator + temps[4] + File.separator + toAnaFile.getName().replace("csv", "log")
                                 )
+                        );
+                    }
+                    if (LoggerWrapper.getLogger(loggerKeyByMon) == null) {
+                        LoggerWrapper.setLogger(
+                                loggerKeyByMon,
+                                LogFactory.getInstance().getLogger(
+                                        desPath + File.separator + "__result" + File.separator + typeFolder + File.separator + temps[4] + ".log")
                         );
                     }
                     try {
@@ -79,6 +86,7 @@ public class GeneralGcLogs {
                         LogFactory.getSystemLogger().error("this line general failed" + e.getMessage(), e);
                     }
                     LoggerWrapper.getLogger(loggerKey).error(row.toString());
+                    LoggerWrapper.getLogger(loggerKeyByMon).error(row.toString());
                 }
             }
         } catch (Exception e) {
