@@ -2,6 +2,7 @@ package com.fr.analyzer.gc.log;
 
 import com.fr.analyzer.log.LogFactory;
 import com.fr.analyzer.log.LoggerWrapper;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -72,24 +73,8 @@ public class GeneralGcLogs {
                         );
                     }
                     try {
-                        if ("GC".equalsIgnoreCase(temps[2])) {
-                            row.append("[").append(temps[2]).append(" (").append(temps[5]).append(") [PSYoungGen: ")
-                                    .append((temps[7])).append("K->").append((temps[8])).append("K(").append((temps[10])).append("K)] ")
-                                    .append((temps[19])).append("K->").append((temps[20])).append("K(").append((temps[22])).append("K), ")
-                                    .append(Integer.valueOf(temps[6]) / 1000F).append(" secs] [Times: real=").append(Integer.valueOf(temps[6]) / 1000F).append(" secs] [pid: ").append(temps[3])
-                                    .append("] [node: ").append(temps[4]).append("]");
-                        } else if ("Full GC".equalsIgnoreCase(temps[2])) {
-                            row.append("[").append(temps[2]).append(" (").append(temps[5]).append(") [PSYoungGen: ")
-                                    .append((temps[7])).append("K->").append((temps[8])).append("K(").append((temps[9])).append("K)] ")
-                                    .append("[ParOldGen: ")
-                                    .append((temps[11])).append("K->").append((temps[12])).append("K(").append((temps[14])).append("K)] ")
-                                    .append((temps[19])).append("K->").append((temps[20])).append("K(").append((temps[22])).append("K), ")
-                                    .append("[Metaspace: ")
-                                    .append((temps[15])).append("K->").append((temps[16])).append("K(").append((temps[18])).append("K)], ")
-                                    .append(Integer.valueOf(temps[6]) / 1000F).append(" secs] [Times: real=").append(Integer.valueOf(temps[6]) / 1000F).append(" secs] [pid: ").append(temps[3])
-                                    .append("] [node: ").append(temps[4]).append("]");
-                        }
-                        row.append(" [balancePromoterScore: ").append(temps[23]).append(", releasePromoterScore: ").append(temps[24]).append(", loadScore: ").append(temps[25]).append("]");
+                        //解析一条记录,接在StringBuilder后边
+                        GcMessageGenerator.record(row, temps);
                     } catch (Exception e) {
                         LogFactory.getSystemLogger().error("this line general failed" + e.getMessage(), e);
                     }
